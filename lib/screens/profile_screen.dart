@@ -5,6 +5,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'settings_screen.dart';
 import 'balance_screen.dart';
 import 'messenger_screen.dart';
+import 'live_screen.dart';
+import 'lifestyle_screen.dart';
+import 'groups_screen.dart';
+import 'notifications_screen.dart';
 
 void main() {
   runApp(const ProfileApp());
@@ -352,89 +356,142 @@ class _ProfileScreenState extends State<ProfileScreen>
         backgroundColor: Colors.white,
         elevation: 0,
         automaticallyImplyLeading: false,
-        title: Text(
-          '@${userData?['username'] ?? 'user'}',
-          style: const TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications, color: Colors.black),
-            onPressed: () {},
-          ),
-          Stack(
-            children: [
-              IconButton(
-                icon:
-                    const Icon(Icons.chat_bubble_outline, color: Colors.black),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const MessengerScreen(),
-                    ),
-                  );
-                },
-              ),
-              StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection('chats')
-                    .where('participants',
-                        arrayContains: FirebaseAuth.instance.currentUser?.uid)
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) return const SizedBox.shrink();
-
-                  int unreadCount = 0;
-                  for (var doc in snapshot.data!.docs) {
-                    final data = doc.data() as Map<String, dynamic>;
-                    unreadCount += (data['unreadCount'] as int?) ?? 0;
-                  }
-
-                  if (unreadCount == 0) return const SizedBox.shrink();
-
-                  return Positioned(
-                    right: 8,
-                    top: 8,
-                    child: Container(
-                      padding: const EdgeInsets.all(2),
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.red.withOpacity(0.3),
-                            blurRadius: 4,
-                            offset: const Offset(0, 2),
+        titleSpacing: 0,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            // Left side icons
+            Row(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.live_tv, color: Colors.black),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LiveScreen(),
+                      ),
+                    );
+                  },
+                  tooltip: 'Live',
+                ),
+                IconButton(
+                  icon: const Icon(Icons.spa, color: Colors.black),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LifestyleScreen(),
+                      ),
+                    );
+                  },
+                  tooltip: 'Lifestyle',
+                ),
+                IconButton(
+                  icon: const Icon(Icons.groups, color: Colors.black),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const GroupsScreen(),
+                      ),
+                    );
+                  },
+                  tooltip: 'Groups',
+                ),
+              ],
+            ),
+            // Center - empty space
+            const Spacer(),
+            // Right side icons
+            Row(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.notifications, color: Colors.black),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const NotificationsScreen(),
+                      ),
+                    );
+                  },
+                ),
+                Stack(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.chat_bubble_outline,
+                          color: Colors.black),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MessengerScreen(),
                           ),
-                        ],
-                      ),
-                      constraints: const BoxConstraints(
-                        minWidth: 16,
-                        minHeight: 16,
-                      ),
-                      child: Text(
-                        unreadCount > 99 ? '99+' : unreadCount.toString(),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
-            ],
-          ),
-          IconButton(
-            icon: const Icon(Icons.menu, color: Colors.black),
-            onPressed: () => _showDropUpMenu(context),
-          ),
-        ],
+                    StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection('chats')
+                          .where('participants',
+                              arrayContains:
+                                  FirebaseAuth.instance.currentUser?.uid)
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) return const SizedBox.shrink();
+
+                        int unreadCount = 0;
+                        for (var doc in snapshot.data!.docs) {
+                          final data = doc.data() as Map<String, dynamic>;
+                          unreadCount += (data['unreadCount'] as int?) ?? 0;
+                        }
+
+                        if (unreadCount == 0) return const SizedBox.shrink();
+
+                        return Positioned(
+                          right: 8,
+                          top: 8,
+                          child: Container(
+                            padding: const EdgeInsets.all(2),
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.red.withOpacity(0.3),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            constraints: const BoxConstraints(
+                              minWidth: 16,
+                              minHeight: 16,
+                            ),
+                            child: Text(
+                              unreadCount > 99 ? '99+' : unreadCount.toString(),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+                IconButton(
+                  icon: const Icon(Icons.menu, color: Colors.black),
+                  onPressed: () => _showDropUpMenu(context),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -689,19 +746,25 @@ class _ProfileScreenState extends State<ProfileScreen>
             ),
             SliverPersistentHeader(
               delegate: _SliverAppBarDelegate(
-                TabBar(
-                  controller: _tabController,
-                  tabs: const <Widget>[
-                    Tab(icon: Icon(Icons.person_outline), text: 'Profile'),
-                    Tab(icon: Icon(Icons.grid_on), text: 'Posts'),
-                    Tab(icon: Icon(Icons.video_library), text: 'Reels'),
-                    Tab(icon: Icon(Icons.shopping_bag), text: 'Shop'),
-                  ],
-                  indicatorColor: Colors.blue,
-                  labelColor: Colors.blue,
-                  unselectedLabelColor: Colors.grey,
-                  labelStyle: const TextStyle(fontSize: 12),
-                  unselectedLabelStyle: const TextStyle(fontSize: 12),
+                Container(
+                  alignment: Alignment.center,
+                  child: TabBar(
+                    controller: _tabController,
+                    isScrollable: true,
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    labelPadding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    tabs: const <Widget>[
+                      Tab(icon: Icon(Icons.person_outline), text: 'Profile'),
+                      Tab(icon: Icon(Icons.grid_on), text: 'Posts'),
+                      Tab(icon: Icon(Icons.video_library), text: 'Reels'),
+                      Tab(icon: Icon(Icons.shopping_bag), text: 'Shop'),
+                    ],
+                    indicatorColor: Colors.blue,
+                    labelColor: Colors.blue,
+                    unselectedLabelColor: Colors.grey,
+                    labelStyle: const TextStyle(fontSize: 12),
+                    unselectedLabelStyle: const TextStyle(fontSize: 12),
+                  ),
                 ),
               ),
               pinned: true,
@@ -898,22 +961,22 @@ class _SmallStatItem extends StatelessWidget {
 }
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  _SliverAppBarDelegate(this._tabBar);
+  _SliverAppBarDelegate(this._widget);
 
-  final TabBar _tabBar;
-
-  @override
-  double get minExtent => _tabBar.preferredSize.height;
+  final Widget _widget;
 
   @override
-  double get maxExtent => _tabBar.preferredSize.height;
+  double get minExtent => 72.0; // Increased height to accommodate the TabBar
+
+  @override
+  double get maxExtent => 72.0;
 
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
       color: Colors.white,
-      child: _tabBar,
+      child: _widget,
     );
   }
 
