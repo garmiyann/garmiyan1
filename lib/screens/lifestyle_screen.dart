@@ -51,7 +51,8 @@ class _LifestyleScreenState extends State<LifestyleScreen>
               );
             },
             itemBuilder: (context) => [
-              const PopupMenuItem(value: 'Create Post', child: Text('Create Post')),
+              const PopupMenuItem(
+                  value: 'Create Post', child: Text('Create Post')),
               const PopupMenuItem(value: 'Settings', child: Text('Settings')),
             ],
           ),
@@ -96,7 +97,8 @@ class _LifestyleScreenState extends State<LifestyleScreen>
       {
         'title': '10 Morning Habits for a Productive Day',
         'author': 'WellnessGuru',
-        'image': 'https://via.placeholder.com/400x250/42a5f5/ffffff?text=Morning+Habits',
+        'image':
+            'https://via.placeholder.com/400x250/42a5f5/ffffff?text=Morning+Habits',
         'category': 'Health',
         'likes': '1.2K',
         'comments': '89',
@@ -104,7 +106,8 @@ class _LifestyleScreenState extends State<LifestyleScreen>
       {
         'title': 'Summer Fashion Trends 2024',
         'author': 'StyleIcon',
-        'image': 'https://via.placeholder.com/400x250/e91e63/ffffff?text=Fashion+Trends',
+        'image':
+            'https://via.placeholder.com/400x250/e91e63/ffffff?text=Fashion+Trends',
         'category': 'Fashion',
         'likes': '2.8K',
         'comments': '156',
@@ -112,7 +115,8 @@ class _LifestyleScreenState extends State<LifestyleScreen>
       {
         'title': 'Easy 15-Minute Healthy Recipes',
         'author': 'QuickChef',
-        'image': 'https://via.placeholder.com/400x250/ff9800/ffffff?text=Healthy+Recipes',
+        'image':
+            'https://via.placeholder.com/400x250/ff9800/ffffff?text=Healthy+Recipes',
         'category': 'Food',
         'likes': '3.1K',
         'comments': '203',
@@ -227,7 +231,8 @@ class _LifestyleScreenState extends State<LifestyleScreen>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
                     color: Colors.blue.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(12),
@@ -275,13 +280,17 @@ class _LifestyleScreenState extends State<LifestyleScreen>
                     const Spacer(),
                     Row(
                       children: [
-                        const Icon(Icons.favorite_outline, size: 16, color: Colors.red),
+                        const Icon(Icons.favorite_outline,
+                            size: 16, color: Colors.red),
                         const SizedBox(width: 4),
-                        Text(post['likes']!, style: const TextStyle(fontSize: 12)),
+                        Text(post['likes']!,
+                            style: const TextStyle(fontSize: 12)),
                         const SizedBox(width: 16),
-                        const Icon(Icons.comment_outlined, size: 16, color: Colors.blue),
+                        const Icon(Icons.comment_outlined,
+                            size: 16, color: Colors.blue),
                         const SizedBox(width: 4),
-                        Text(post['comments']!, style: const TextStyle(fontSize: 12)),
+                        Text(post['comments']!,
+                            style: const TextStyle(fontSize: 12)),
                       ],
                     ),
                   ],

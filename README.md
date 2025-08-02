@@ -21,3 +21,4 @@ git remote add origin https://github.com/garmyan1/my_full_app.git
 git push -u origin main
 
 git status
+git add .

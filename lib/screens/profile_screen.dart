@@ -9,6 +9,8 @@ import 'live_screen.dart';
 import 'lifestyle_screen.dart';
 import 'groups_screen.dart';
 import 'notifications_screen.dart';
+import 'payment/payment_screen.dart';
+import 'menu/menu_screens.dart';
 
 void main() {
   runApp(const ProfileApp());
@@ -245,6 +247,28 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 builder: (context) => const BalanceScreen(),
                               ),
                             );
+                          } else if (itemData['label'] == 'TikTok Studio') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const TikTokStudioScreen(),
+                              ),
+                            );
+                          } else if (itemData['label'] == 'My Project') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const MyProjectScreen(),
+                              ),
+                            );
+                          } else if (itemData['label'] == 'My QR code') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const MyQRCodeScreen(),
+                              ),
+                            );
                           }
                           // You can add more navigation cases here for other menu items
                         },
@@ -363,9 +387,8 @@ class _ProfileScreenState extends State<ProfileScreen>
             // Left side icons
             Row(
               children: [
-                IconButton(
-                  icon: const Icon(Icons.live_tv, color: Colors.black),
-                  onPressed: () {
+                GestureDetector(
+                  onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -373,11 +396,28 @@ class _ProfileScreenState extends State<ProfileScreen>
                       ),
                     );
                   },
-                  tooltip: 'Live',
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.live_tv, color: Colors.black, size: 23),
+                        const SizedBox(height: 2),
+                        Text(
+                          'Live',
+                          style: TextStyle(
+                            fontSize: 8,
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.spa, color: Colors.black),
-                  onPressed: () {
+                GestureDetector(
+                  onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -385,11 +425,28 @@ class _ProfileScreenState extends State<ProfileScreen>
                       ),
                     );
                   },
-                  tooltip: 'Lifestyle',
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.spa, color: Colors.black, size: 23),
+                        const SizedBox(height: 2),
+                        Text(
+                          'Lifestyle',
+                          style: TextStyle(
+                            fontSize: 8,
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.groups, color: Colors.black),
-                  onPressed: () {
+                GestureDetector(
+                  onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -397,7 +454,25 @@ class _ProfileScreenState extends State<ProfileScreen>
                       ),
                     );
                   },
-                  tooltip: 'Groups',
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.groups, color: Colors.black, size: 23),
+                        const SizedBox(height: 2),
+                        Text(
+                          'Groups',
+                          style: TextStyle(
+                            fontSize: 8,
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -406,9 +481,8 @@ class _ProfileScreenState extends State<ProfileScreen>
             // Right side icons
             Row(
               children: [
-                IconButton(
-                  icon: const Icon(Icons.notifications, color: Colors.black),
-                  onPressed: () {
+                GestureDetector(
+                  onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -416,13 +490,31 @@ class _ProfileScreenState extends State<ProfileScreen>
                       ),
                     );
                   },
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.notifications,
+                            color: Colors.black, size: 23),
+                        const SizedBox(height: 2),
+                        Text(
+                          'Notify',
+                          style: TextStyle(
+                            fontSize: 8,
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
                 Stack(
                   children: [
-                    IconButton(
-                      icon: const Icon(Icons.chat_bubble_outline,
-                          color: Colors.black),
-                      onPressed: () {
+                    GestureDetector(
+                      onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -430,6 +522,26 @@ class _ProfileScreenState extends State<ProfileScreen>
                           ),
                         );
                       },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.chat_bubble_outline,
+                                color: Colors.black, size: 23),
+                            const SizedBox(height: 2),
+                            Text(
+                              'Chat',
+                              style: TextStyle(
+                                fontSize: 8,
+                                color: Colors.grey[700],
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                     StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
@@ -451,7 +563,7 @@ class _ProfileScreenState extends State<ProfileScreen>
 
                         return Positioned(
                           right: 8,
-                          top: 8,
+                          top: 4,
                           child: Container(
                             padding: const EdgeInsets.all(2),
                             decoration: BoxDecoration(
@@ -484,9 +596,57 @@ class _ProfileScreenState extends State<ProfileScreen>
                     ),
                   ],
                 ),
-                IconButton(
-                  icon: const Icon(Icons.menu, color: Colors.black),
-                  onPressed: () => _showDropUpMenu(context),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const PaymentScreen(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.monetization_on_outlined,
+                            color: Colors.black, size: 23),
+                        const SizedBox(height: 2),
+                        Text(
+                          'Payment',
+                          style: TextStyle(
+                            fontSize: 8,
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () => _showDropUpMenu(context),
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.menu, color: Colors.black, size: 23),
+                        const SizedBox(height: 2),
+                        Text(
+                          'Menu',
+                          style: TextStyle(
+                            fontSize: 8,
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),

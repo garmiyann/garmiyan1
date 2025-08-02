@@ -82,7 +82,8 @@ class _GroupsScreenState extends State<GroupsScreen>
       {
         'name': 'Flutter Developers',
         'members': '1,234',
-        'description': 'A community for Flutter developers to share knowledge and help each other',
+        'description':
+            'A community for Flutter developers to share knowledge and help each other',
         'image': 'https://via.placeholder.com/100x100/2196f3/ffffff?text=FD',
         'isAdmin': true,
         'lastActivity': '2 hours ago',
@@ -90,7 +91,8 @@ class _GroupsScreenState extends State<GroupsScreen>
       {
         'name': 'Photography Enthusiasts',
         'members': '856',
-        'description': 'Share your best shots and get feedback from fellow photographers',
+        'description':
+            'Share your best shots and get feedback from fellow photographers',
         'image': 'https://via.placeholder.com/100x100/ff9800/ffffff?text=PE',
         'isAdmin': false,
         'lastActivity': '1 day ago',
@@ -128,7 +130,8 @@ class _GroupsScreenState extends State<GroupsScreen>
       {
         'name': 'Tech Startups',
         'members': '3,456',
-        'description': 'Connect with entrepreneurs and discuss the latest in tech startups',
+        'description':
+            'Connect with entrepreneurs and discuss the latest in tech startups',
         'image': 'https://via.placeholder.com/100x100/9c27b0/ffffff?text=TS',
         'category': 'Technology',
       },
@@ -187,7 +190,8 @@ class _GroupsScreenState extends State<GroupsScreen>
     );
   }
 
-  Widget _buildGroupCard(Map<String, dynamic> group, {required bool showJoinButton}) {
+  Widget _buildGroupCard(Map<String, dynamic> group,
+      {required bool showJoinButton}) {
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
       elevation: 2,
@@ -226,7 +230,8 @@ class _GroupsScreenState extends State<GroupsScreen>
                           ),
                           if (group['isAdmin'] == true)
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 2),
                               decoration: BoxDecoration(
                                 color: Colors.blue.withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(8),
@@ -256,7 +261,8 @@ class _GroupsScreenState extends State<GroupsScreen>
                           ),
                           if (group['lastActivity'] != null) ...[
                             const SizedBox(width: 8),
-                            Icon(Icons.access_time, size: 14, color: Colors.grey[600]),
+                            Icon(Icons.access_time,
+                                size: 14, color: Colors.grey[600]),
                             const SizedBox(width: 4),
                             Text(
                               group['lastActivity']!,
@@ -287,7 +293,8 @@ class _GroupsScreenState extends State<GroupsScreen>
               children: [
                 if (group['category'] != null)
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(8),
@@ -316,7 +323,8 @@ class _GroupsScreenState extends State<GroupsScreen>
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: const Text('Join', style: TextStyle(color: Colors.white)),
+                    child: const Text('Join',
+                        style: TextStyle(color: Colors.white)),
                   )
                 else
                   TextButton(
@@ -428,8 +436,10 @@ class _GroupsScreenState extends State<GroupsScreen>
                         SnackBar(content: Text('Joined ${invite['name']}!')),
                       );
                     },
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                    child: const Text('Accept', style: TextStyle(color: Colors.white)),
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                    child: const Text('Accept',
+                        style: TextStyle(color: Colors.white)),
                   ),
                 ),
               ],

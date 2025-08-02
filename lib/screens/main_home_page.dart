@@ -1,8 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'shop_page.dart';
 import 'profile_screen.dart';
 import 'notifications_screen.dart';
+import 'ai/ai_chat_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -31,7 +31,7 @@ class _MainHomePageState extends State<MainHomePage> {
 
   final List<Widget> _pages = [
     const _HomeContent(),
-    const ShopPage(),
+    const AIChatScreen(),
     const NotificationsScreen(),
     const ProfileScreen(),
   ];
@@ -158,9 +158,8 @@ class _MainHomePageState extends State<MainHomePage> {
               selected: _selectedIndex == 0,
               onTap: () => _onItemTapped(0),
             ),
-            _TikTokNavItem(
-              icon: Icons.shopping_bag,
-              label: 'Shop',
+            _AINavItem(
+              label: 'AI Chat',
               selected: _selectedIndex == 1,
               onTap: () => _onItemTapped(1),
             ),
@@ -240,6 +239,72 @@ class _TikTokNavItem extends StatelessWidget {
               icon,
               color: selected ? Colors.deepPurple : Colors.grey.shade600,
               size: selected ? 24 : 22,
+            ),
+            const SizedBox(height: 2),
+            Flexible(
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: 9,
+                  fontWeight: selected ? FontWeight.bold : FontWeight.w500,
+                  color: selected ? Colors.deepPurple : Colors.grey.shade600,
+                ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _AINavItem extends StatelessWidget {
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  const _AINavItem({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 55,
+        padding: const EdgeInsets.symmetric(vertical: 2),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Container(
+              width: selected ? 24 : 22,
+              height: selected ? 24 : 22,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: selected
+                      ? [Colors.deepPurple, Colors.purple]
+                      : [Colors.grey.shade600, Colors.grey.shade500],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(selected ? 12 : 11),
+              ),
+              child: Center(
+                child: Text(
+                  'AI',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: selected ? 10 : 9,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: 2),
             Flexible(

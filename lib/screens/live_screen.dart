@@ -64,7 +64,8 @@ class _LiveScreenState extends State<LiveScreen> {
                 const SizedBox(width: 12),
                 IconButton(
                   onPressed: () {},
-                  icon: const Icon(Icons.camera_alt, color: Colors.white, size: 28),
+                  icon: const Icon(Icons.camera_alt,
+                      color: Colors.white, size: 28),
                   style: IconButton.styleFrom(
                     backgroundColor: Colors.grey[800],
                     padding: const EdgeInsets.all(12),
@@ -73,7 +74,7 @@ class _LiveScreenState extends State<LiveScreen> {
               ],
             ),
           ),
-          
+
           // Live streams list
           Expanded(
             child: Container(
@@ -123,19 +124,22 @@ class _LiveScreenState extends State<LiveScreen> {
         'title': 'Gaming Session',
         'streamer': 'ProGamer123',
         'viewers': '2.3K',
-        'thumbnail': 'https://via.placeholder.com/300x200/4287f5/ffffff?text=Gaming',
+        'thumbnail':
+            'https://via.placeholder.com/300x200/4287f5/ffffff?text=Gaming',
       },
       {
         'title': 'Cooking Tutorial',
         'streamer': 'ChefMaster',
         'viewers': '1.8K',
-        'thumbnail': 'https://via.placeholder.com/300x200/ff6b6b/ffffff?text=Cooking',
+        'thumbnail':
+            'https://via.placeholder.com/300x200/ff6b6b/ffffff?text=Cooking',
       },
       {
         'title': 'Music Performance',
         'streamer': 'MusicLover',
         'viewers': '5.2K',
-        'thumbnail': 'https://via.placeholder.com/300x200/feca57/ffffff?text=Music',
+        'thumbnail':
+            'https://via.placeholder.com/300x200/feca57/ffffff?text=Music',
       },
     ];
 
@@ -206,7 +210,8 @@ class _LiveScreenState extends State<LiveScreen> {
                   top: 12,
                   left: 12,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: Colors.red,
                       borderRadius: BorderRadius.circular(4),
@@ -225,7 +230,8 @@ class _LiveScreenState extends State<LiveScreen> {
                   top: 12,
                   right: 12,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: Colors.black.withOpacity(0.7),
                       borderRadius: BorderRadius.circular(4),
