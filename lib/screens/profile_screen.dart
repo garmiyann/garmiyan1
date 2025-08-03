@@ -10,7 +10,7 @@ import 'lifestyle_screen.dart';
 import 'groups_screen.dart';
 import 'notifications_screen.dart';
 import 'payment/payment_screen.dart';
-import 'menu/menu_screens.dart';
+import 'menu_bottom/menu_screens.dart';
 
 void main() {
   runApp(const ProfileApp());

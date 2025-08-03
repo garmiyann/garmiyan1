@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'main_home_page.dart';
+import '../main_home_page.dart';
 import 'register_page.dart';
-import 'forget_password_page.dart';
+import '../forget_password_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

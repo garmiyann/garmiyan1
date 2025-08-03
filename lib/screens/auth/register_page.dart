@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'login_page.dart';
-import 'main_home_page.dart';
+import '../main_home_page.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});

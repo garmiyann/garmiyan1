@@ -1,9 +1,9 @@
 /*
-Menu Screens Organization
+Bottom Menu Screens Organization
 
-Your menu folder structure now looks like:
+Your menu_bottom folder structure now looks like:
 
-lib/screens/menu/
+lib/screens/menu_bottom/
 ├── tiktok_studio_screen.dart        // Creator tools and analytics
 ├── my_project_screen.dart           // Project management (drafts/published)
 ├── my_qr_code_screen.dart          // QR code sharing and management
@@ -12,12 +12,12 @@ lib/screens/menu/
 How to import menu screens:
 
 Option 1: Import individual screens
-import 'menu/tiktok_studio_screen.dart';
-import 'menu/my_project_screen.dart';
-import 'menu/my_qr_code_screen.dart';
+import 'menu_bottom/tiktok_studio_screen.dart';
+import 'menu_bottom/my_project_screen.dart';
+import 'menu_bottom/my_qr_code_screen.dart';
 
 Option 2: Import all menu screens at once
-import 'menu/menu_screens.dart';
+import 'menu_bottom/menu_screens.dart';
 
 Menu Items Available:
 1. TikTok Studio - Professional creator tools with analytics, video editor, content planner
