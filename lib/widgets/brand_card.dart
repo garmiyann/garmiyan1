@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../screens/shopping_browser_page.dart';
+import '../screens/shopping/shopping_browser_page.dart';
 
 class BrandCard extends StatelessWidget {
   final String image;

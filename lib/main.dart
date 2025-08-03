@@ -3,10 +3,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart'; // Required for Firebase initialization
 
-import 'screens/auth/login_page.dart';
-import 'screens/auth/register_page.dart';
-import 'screens/main_home_page.dart';
-import 'screens/onboarding_page.dart';
+import 'presentation/pages/auth/login_page.dart';
+import 'presentation/pages/auth/register_page.dart';
+import 'presentation/pages/home/main_home_page.dart';
+import 'screens/onboarding/onboarding_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
