@@ -3,8 +3,8 @@
 /// Professional user management and application settings
 /// following Material Design 3 patterns.
 
-export 'profile_page.dart';
-export 'settings_page.dart';
+// Main TikTok-style profile is located in lib/screens/profile/profile_screen.dart
+// This barrel file exports only the gateway and presentation-layer components
 export 'about_page.dart';
 
 // TODO: Migrate and add these pages from screens/menu/ to presentation layer:
