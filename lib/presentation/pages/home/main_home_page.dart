@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 // import 'ai/ai_chat_screen.dart';     // Commented out - missing file
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../profile/about_page.dart'; // Import the new AboutPage
+import '../../../screens/profile/profile_screen.dart'; // Import the main TikTok-style profile
 
 /// Data model for an action option in the add modal.
 class _AddActionOption {
@@ -34,7 +34,7 @@ class _MainHomePageState extends State<MainHomePage> {
     const _HomeContent(),
     const SimpleAIChatScreen(),
     const SimpleNotificationsScreen(),
-    const AboutPage(), // Connect to AboutPage with TikTok profile integration
+    const ProfileScreen(), // Connect directly to main TikTok-style profile
   ];
 
   void _onItemTapped(int index) {
@@ -625,7 +625,7 @@ class _HomeContentWithSearchState extends State<_HomeContentWithSearch> {
                         context,
                         MaterialPageRoute(
                           builder: (_) =>
-                              const AboutPage(), // Navigate to AboutPage
+                              const ProfileScreen(), // Navigate to main profile
                         ),
                       );
                     },
@@ -644,7 +644,7 @@ class _HomeContentWithSearchState extends State<_HomeContentWithSearch> {
                     context,
                     MaterialPageRoute(
                         builder: (_) =>
-                            const AboutPage()), // Navigate to AboutPage
+                            const ProfileScreen()), // Navigate to main profile
                   );
                 },
                 child: Row(

@@ -3,9 +3,10 @@
 /// Professional user management and application settings
 /// following Material Design 3 patterns.
 
-export 'profile_page.dart';
-export 'settings_page.dart';
+// Main profile is located at lib/screens/profile/profile_screen.dart
+// This exports only the gateway AboutPage from presentation layer
 export 'about_page.dart';
+export 'settings_page.dart';
 
 // TODO: Migrate and add these pages from screens/menu/ to presentation layer:
 // export 'account_settings_page.dart';      // -> screens/menu/account_settings_screen.dart
