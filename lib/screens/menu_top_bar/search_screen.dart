@@ -14,24 +14,29 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         elevation: 0,
         title: Container(
           height: 40,
           decoration: BoxDecoration(
-            color: Colors.grey[900],
+            color: isDark ? Colors.grey[800] : Colors.grey[100],
             borderRadius: BorderRadius.circular(20),
           ),
           child: TextField(
             controller: _searchController,
-            style: const TextStyle(color: Colors.white),
+            style: TextStyle(color: isDark ? Colors.white : Colors.black),
             decoration: InputDecoration(
               hintText: 'Search...',
-              hintStyle: TextStyle(color: Colors.grey[400]),
-              prefixIcon: const Icon(Icons.search, color: Colors.grey),
+              hintStyle: TextStyle(
+                  color: isDark ? Colors.grey[400] : Colors.grey[600]),
+              prefixIcon: Icon(
+                Icons.search,
+                color: isDark ? Colors.grey[400] : Colors.grey[600],
+              ),
               border: InputBorder.none,
               contentPadding: const EdgeInsets.symmetric(vertical: 10),
             ),
@@ -62,14 +67,18 @@ class _SearchScreenState extends State<SearchScreen> {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                     decoration: BoxDecoration(
-                      color: isSelected ? Colors.deepPurple : Colors.grey[800],
+                      color: isSelected
+                          ? Theme.of(context).primaryColor
+                          : (isDark ? Colors.grey[800] : Colors.grey[200]),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Center(
                       child: Text(
                         filter,
                         style: TextStyle(
-                          color: Colors.white,
+                          color: isSelected
+                              ? Colors.white
+                              : (isDark ? Colors.white : Colors.black),
                           fontWeight:
                               isSelected ? FontWeight.bold : FontWeight.normal,
                         ),
@@ -113,12 +122,13 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Widget _buildSectionHeader(String title) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Text(
         title,
-        style: const TextStyle(
-          color: Colors.white,
+        style: TextStyle(
+          color: isDark ? Colors.white : Colors.black,
           fontSize: 18,
           fontWeight: FontWeight.bold,
         ),
@@ -127,14 +137,21 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Widget _buildRecentSearchItem(String query) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return ListTile(
-      leading: const Icon(Icons.history, color: Colors.grey),
+      leading: Icon(
+        Icons.history,
+        color: isDark ? Colors.grey[400] : Colors.grey[600],
+      ),
       title: Text(
         query,
-        style: const TextStyle(color: Colors.white),
+        style: TextStyle(color: isDark ? Colors.white : Colors.black),
       ),
       trailing: IconButton(
-        icon: const Icon(Icons.close, color: Colors.grey),
+        icon: Icon(
+          Icons.close,
+          color: isDark ? Colors.grey[400] : Colors.grey[600],
+        ),
         onPressed: () {
           // Remove from recent searches
         },
@@ -147,16 +164,19 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Widget _buildTrendingItem(String hashtag, String count) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return ListTile(
-      leading: const Icon(Icons.trending_up, color: Colors.deepPurple),
+      leading: Icon(Icons.trending_up, color: Theme.of(context).primaryColor),
       title: Text(
         hashtag,
-        style:
-            const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        style: TextStyle(
+          color: isDark ? Colors.white : Colors.black,
+          fontWeight: FontWeight.bold,
+        ),
       ),
       subtitle: Text(
         count,
-        style: TextStyle(color: Colors.grey[400]),
+        style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[600]),
       ),
       onTap: () {
         // Search for trending topic
@@ -165,9 +185,10 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Widget _buildSuggestedPerson(String name, String username, bool isFollowing) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return ListTile(
       leading: CircleAvatar(
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Theme.of(context).primaryColor,
         child: Text(
           name[0],
           style:
@@ -176,21 +197,27 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
       title: Text(
         name,
-        style:
-            const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        style: TextStyle(
+          color: isDark ? Colors.white : Colors.black,
+          fontWeight: FontWeight.bold,
+        ),
       ),
       subtitle: Text(
         username,
-        style: TextStyle(color: Colors.grey[400]),
+        style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[600]),
       ),
       trailing: OutlinedButton(
         onPressed: () {
           // Handle follow/unfollow
         },
         style: OutlinedButton.styleFrom(
-          foregroundColor: isFollowing ? Colors.grey : Colors.deepPurple,
+          foregroundColor: isFollowing
+              ? (isDark ? Colors.grey[400] : Colors.grey[600])
+              : Theme.of(context).primaryColor,
           side: BorderSide(
-            color: isFollowing ? Colors.grey : Colors.deepPurple,
+            color: isFollowing
+                ? (isDark ? Colors.grey[400]! : Colors.grey[600]!)
+                : Theme.of(context).primaryColor,
           ),
         ),
         child: Text(isFollowing ? 'Following' : 'Follow'),

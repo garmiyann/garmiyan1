@@ -89,9 +89,9 @@ class _AIChatScreenState extends State<AIChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         elevation: 0,
         title: Row(
           children: [
@@ -118,18 +118,18 @@ class _AIChatScreenState extends State<AIChatScreen> {
               ),
             ),
             const SizedBox(width: 12),
-            const Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'AI Assistant',
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Theme.of(context).appBarTheme.foregroundColor,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                Text(
+                const Text(
                   'Online',
                   style: TextStyle(
                     color: Colors.green,
@@ -140,7 +140,9 @@ class _AIChatScreenState extends State<AIChatScreen> {
             ),
           ],
         ),
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(
+          color: Theme.of(context).appBarTheme.foregroundColor,
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.more_vert),
@@ -169,6 +171,7 @@ class _AIChatScreenState extends State<AIChatScreen> {
   }
 
   Widget _buildMessageBubble(ChatMessage message) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
@@ -205,11 +208,14 @@ class _AIChatScreenState extends State<AIChatScreen> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
-                color: message.isUser ? Colors.blue : Colors.white,
+                color: message.isUser
+                    ? Theme.of(context).primaryColor
+                    : (isDark ? Colors.grey[800] : Colors.white),
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: (isDark ? Colors.black : Colors.black)
+                        .withOpacity(isDark ? 0.3 : 0.05),
                     blurRadius: 4,
                     offset: const Offset(0, 2),
                   ),
@@ -221,7 +227,9 @@ class _AIChatScreenState extends State<AIChatScreen> {
                   Text(
                     message.text,
                     style: TextStyle(
-                      color: message.isUser ? Colors.white : Colors.black87,
+                      color: message.isUser
+                          ? Colors.white
+                          : (isDark ? Colors.white : Colors.black87),
                       fontSize: 14,
                     ),
                   ),
@@ -231,7 +239,7 @@ class _AIChatScreenState extends State<AIChatScreen> {
                     style: TextStyle(
                       color: message.isUser
                           ? Colors.white.withOpacity(0.7)
-                          : Colors.grey[500],
+                          : (isDark ? Colors.grey[400] : Colors.grey[500]),
                       fontSize: 10,
                     ),
                   ),
@@ -243,8 +251,12 @@ class _AIChatScreenState extends State<AIChatScreen> {
             const SizedBox(width: 8),
             CircleAvatar(
               radius: 16,
-              backgroundColor: Colors.blue.withOpacity(0.1),
-              child: const Icon(Icons.person, color: Colors.blue, size: 16),
+              backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
+              child: Icon(
+                Icons.person,
+                color: Theme.of(context).primaryColor,
+                size: 16,
+              ),
             ),
           ],
         ],
@@ -253,13 +265,15 @@ class _AIChatScreenState extends State<AIChatScreen> {
   }
 
   Widget _buildMessageInput() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isDark ? Colors.grey[900] : Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: (isDark ? Colors.black : Colors.black)
+                .withOpacity(isDark ? 0.3 : 0.05),
             blurRadius: 4,
             offset: const Offset(0, -2),
           ),
@@ -270,16 +284,20 @@ class _AIChatScreenState extends State<AIChatScreen> {
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.grey[100],
+                color: isDark ? Colors.grey[800] : Colors.grey[100],
                 borderRadius: BorderRadius.circular(24),
               ),
               child: TextField(
                 controller: _messageController,
-                decoration: const InputDecoration(
+                style: TextStyle(color: isDark ? Colors.white : Colors.black),
+                decoration: InputDecoration(
                   hintText: 'Type your message...',
+                  hintStyle: TextStyle(
+                    color: isDark ? Colors.grey[400] : Colors.grey[600],
+                  ),
                   border: InputBorder.none,
                   contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 ),
                 maxLines: null,
                 onSubmitted: (_) => _sendMessage(),

@@ -32,21 +32,21 @@ class _MessengerScreenState extends State<MessengerScreen>
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF527DA3),
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         elevation: 8,
-        shadowColor: Colors.black26,
+        shadowColor: isDark ? Colors.black54 : Colors.black26,
         flexibleSpace: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [
-                Color(0xFF527DA3),
-                Color(0xFF40A2E3),
-              ],
+              colors: isDark
+                  ? [Colors.grey[800]!, Colors.grey[700]!]
+                  : [const Color(0xFF527DA3), const Color(0xFF40A2E3)],
             ),
           ),
         ),
@@ -56,28 +56,42 @@ class _MessengerScreenState extends State<MessengerScreen>
               ? Container(
                   key: const ValueKey('search'),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
+                    color:
+                        (isDark ? Colors.black : Colors.white).withOpacity(0.2),
                     borderRadius: BorderRadius.circular(25),
                   ),
                   child: TextField(
                     controller: _searchController,
-                    style: const TextStyle(color: Colors.white),
-                    decoration: const InputDecoration(
+                    style: TextStyle(
+                      color: Theme.of(context).appBarTheme.foregroundColor,
+                    ),
+                    decoration: InputDecoration(
                       hintText: 'Search...',
-                      hintStyle: TextStyle(color: Colors.white70),
+                      hintStyle: TextStyle(
+                        color: Theme.of(context)
+                            .appBarTheme
+                            .foregroundColor
+                            ?.withOpacity(0.7),
+                      ),
                       border: InputBorder.none,
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      prefixIcon: Icon(Icons.search, color: Colors.white70),
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: Theme.of(context)
+                            .appBarTheme
+                            .foregroundColor
+                            ?.withOpacity(0.7),
+                      ),
                     ),
                     autofocus: true,
                   ),
                 )
-              : const Text(
+              : Text(
                   'Telegram',
-                  key: ValueKey('title'),
+                  key: const ValueKey('title'),
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Theme.of(context).appBarTheme.foregroundColor,
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
                     letterSpacing: 0.5,
@@ -87,7 +101,10 @@ class _MessengerScreenState extends State<MessengerScreen>
         actions: [
           if (!_isSearching) ...[
             IconButton(
-              icon: const Icon(Icons.search, color: Colors.white),
+              icon: Icon(
+                Icons.search,
+                color: Theme.of(context).appBarTheme.foregroundColor,
+              ),
               onPressed: () {
                 setState(() {
                   _isSearching = true;
@@ -97,7 +114,10 @@ class _MessengerScreenState extends State<MessengerScreen>
               tooltip: 'Search',
             ),
             PopupMenuButton<String>(
-              icon: const Icon(Icons.more_vert, color: Colors.white),
+              icon: Icon(
+                Icons.more_vert,
+                color: Theme.of(context).appBarTheme.foregroundColor,
+              ),
               onSelected: (value) {
                 switch (value) {
                   case 'new_group':
@@ -141,7 +161,10 @@ class _MessengerScreenState extends State<MessengerScreen>
             ),
           ] else ...[
             IconButton(
-              icon: const Icon(Icons.close, color: Colors.white),
+              icon: Icon(
+                Icons.close,
+                color: Theme.of(context).appBarTheme.foregroundColor,
+              ),
               onPressed: () {
                 setState(() {
                   _isSearching = false;
@@ -155,10 +178,11 @@ class _MessengerScreenState extends State<MessengerScreen>
         ],
         bottom: TabBar(
           controller: _tabController,
-          indicatorColor: Colors.white,
+          indicatorColor: Theme.of(context).appBarTheme.foregroundColor,
           indicatorWeight: 3,
-          labelColor: Colors.white,
-          unselectedLabelColor: Colors.white70,
+          labelColor: Theme.of(context).appBarTheme.foregroundColor,
+          unselectedLabelColor:
+              Theme.of(context).appBarTheme.foregroundColor?.withOpacity(0.7),
           labelStyle: const TextStyle(fontWeight: FontWeight.w500),
           tabs: const [
             Tab(text: 'ALL CHATS'),
@@ -182,12 +206,15 @@ class _MessengerScreenState extends State<MessengerScreen>
   }
 
   Widget _buildBottomNavigationBar() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).bottomNavigationBarTheme.backgroundColor ??
+            (isDark ? Colors.grey[900] : Colors.white),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: (isDark ? Colors.black : Colors.black)
+                .withOpacity(isDark ? 0.3 : 0.1),
             blurRadius: 10,
             offset: const Offset(0, -2),
           ),
@@ -236,6 +263,8 @@ class _MessengerScreenState extends State<MessengerScreen>
     required String label,
     required VoidCallback onTap,
   }) {
+    final primaryColor = Theme.of(context).primaryColor;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -246,21 +275,21 @@ class _MessengerScreenState extends State<MessengerScreen>
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: const Color(0xFF40A2E3).withOpacity(0.1),
+                color: primaryColor.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
                 icon,
-                color: const Color(0xFF40A2E3),
+                color: primaryColor,
                 size: 24,
               ),
             ),
             const SizedBox(height: 4),
             Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 12,
-                color: Color(0xFF40A2E3),
+                color: primaryColor,
                 fontWeight: FontWeight.w500,
               ),
             ),

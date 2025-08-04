@@ -97,26 +97,50 @@ class _BalanceScreenState extends State<BalanceScreen> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        final isDark = Theme.of(context).brightness == Brightness.dark;
         return AlertDialog(
-          title: const Text('Withdraw Funds'),
+          backgroundColor: isDark ? Colors.grey[800] : Colors.white,
+          title: Text(
+            'Withdraw Funds',
+            style: TextStyle(
+              color: isDark ? Colors.white : Colors.black,
+            ),
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Available Balance: \$${totalBalance.toStringAsFixed(2)}'),
+              Text(
+                'Available Balance: \$${totalBalance.toStringAsFixed(2)}',
+                style: TextStyle(
+                  color: isDark ? Colors.white : Colors.black,
+                ),
+              ),
               const SizedBox(height: 16),
-              const TextField(
+              TextField(
+                style: TextStyle(
+                  color: isDark ? Colors.white : Colors.black,
+                ),
                 decoration: InputDecoration(
                   labelText: 'Withdrawal Amount',
+                  labelStyle: TextStyle(
+                    color: isDark ? Colors.grey[400] : Colors.grey[700],
+                  ),
                   prefixText: '\$',
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                 ),
                 keyboardType: TextInputType.number,
               ),
               const SizedBox(height: 12),
-              const TextField(
+              TextField(
+                style: TextStyle(
+                  color: isDark ? Colors.white : Colors.black,
+                ),
                 decoration: InputDecoration(
                   labelText: 'Bank Account',
-                  border: OutlineInputBorder(),
+                  labelStyle: TextStyle(
+                    color: isDark ? Colors.grey[400] : Colors.grey[700],
+                  ),
+                  border: const OutlineInputBorder(),
                 ),
               ),
             ],
@@ -147,24 +171,30 @@ class _BalanceScreenState extends State<BalanceScreen> {
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
+      return Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        body: const Center(child: CircularProgressIndicator()),
       );
     }
 
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Theme.of(context).appBarTheme.foregroundColor,
+          ),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: const Text(
+        title: Text(
           'Balance & Earnings',
           style: TextStyle(
-            color: Colors.black,
+            color: Theme.of(context).appBarTheme.foregroundColor,
             fontWeight: FontWeight.w600,
             fontSize: 18,
           ),
@@ -221,7 +251,7 @@ class _BalanceScreenState extends State<BalanceScreen> {
                     icon: const Icon(Icons.account_balance),
                     label: const Text('Withdraw'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
+                      backgroundColor: Theme.of(context).primaryColor,
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
@@ -239,7 +269,8 @@ class _BalanceScreenState extends State<BalanceScreen> {
                     icon: const Icon(Icons.analytics),
                     label: const Text('Analytics'),
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.blue,
+                      foregroundColor: Theme.of(context).primaryColor,
+                      side: BorderSide(color: Theme.of(context).primaryColor),
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -253,23 +284,24 @@ class _BalanceScreenState extends State<BalanceScreen> {
             const SizedBox(height: 24),
 
             // Recent Transactions
-            const Text(
+            Text(
               'Recent Transactions',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.black87,
+                color: isDark ? Colors.white : Colors.black87,
               ),
             ),
             const SizedBox(height: 12),
 
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: isDark ? Colors.grey[800] : Colors.white,
                 borderRadius: BorderRadius.circular(8),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: (isDark ? Colors.black : Colors.black)
+                        .withOpacity(isDark ? 0.3 : 0.05),
                     spreadRadius: 1,
                     blurRadius: 5,
                     offset: const Offset(0, 3),
@@ -280,7 +312,10 @@ class _BalanceScreenState extends State<BalanceScreen> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: recentTransactions.length,
-                separatorBuilder: (context, index) => const Divider(height: 1),
+                separatorBuilder: (context, index) => Divider(
+                  height: 1,
+                  color: isDark ? Colors.grey[700] : Colors.grey[300],
+                ),
                 itemBuilder: (context, index) {
                   final transaction = recentTransactions[index];
                   return _TransactionTile(transaction: transaction);
@@ -371,14 +406,16 @@ class _BalanceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isDark ? Colors.grey[800] : Colors.white,
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: (isDark ? Colors.black : Colors.black)
+                .withOpacity(isDark ? 0.3 : 0.05),
             spreadRadius: 1,
             blurRadius: 5,
             offset: const Offset(0, 3),
@@ -423,16 +460,16 @@ class _BalanceCard extends StatelessWidget {
             title,
             style: TextStyle(
               fontSize: 12,
-              color: Colors.grey[600],
+              color: isDark ? Colors.grey[400] : Colors.grey[600],
             ),
           ),
           const SizedBox(height: 4),
           Text(
             '\$${amount.toStringAsFixed(2)}',
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: Colors.black87,
+              color: isDark ? Colors.white : Colors.black87,
             ),
           ),
           if (subtitle != null) ...[
@@ -441,7 +478,7 @@ class _BalanceCard extends StatelessWidget {
               subtitle!,
               style: TextStyle(
                 fontSize: 10,
-                color: Colors.grey[500],
+                color: isDark ? Colors.grey[500] : Colors.grey[500],
               ),
             ),
           ],
@@ -458,6 +495,7 @@ class _TransactionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final isEarning = transaction['type'] == 'earning';
     final amount = transaction['amount'] as double;
 
@@ -477,9 +515,10 @@ class _TransactionTile extends StatelessWidget {
       ),
       title: Text(
         transaction['title'],
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w600,
+          color: isDark ? Colors.white : Colors.black,
         ),
       ),
       subtitle: Column(
@@ -489,7 +528,7 @@ class _TransactionTile extends StatelessWidget {
             transaction['date'],
             style: TextStyle(
               fontSize: 12,
-              color: Colors.grey[600],
+              color: isDark ? Colors.grey[400] : Colors.grey[600],
             ),
           ),
           if (transaction['status'] == 'pending')
@@ -530,6 +569,7 @@ class _EarningSourceItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
@@ -537,10 +577,10 @@ class _EarningSourceItem extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.blue.withOpacity(0.1),
+              color: Theme.of(context).primaryColor.withOpacity(0.1),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(icon, color: Colors.blue, size: 20),
+            child: Icon(icon, color: Theme.of(context).primaryColor, size: 20),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -549,16 +589,17 @@ class _EarningSourceItem extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
+                    color: isDark ? Colors.white : Colors.black,
                   ),
                 ),
                 Text(
                   '${percentage.toStringAsFixed(1)}% of total earnings',
                   style: TextStyle(
                     fontSize: 12,
-                    color: Colors.grey[600],
+                    color: isDark ? Colors.grey[400] : Colors.grey[600],
                   ),
                 ),
               ],
@@ -566,10 +607,10 @@ class _EarningSourceItem extends StatelessWidget {
           ),
           Text(
             '\$${amount.toStringAsFixed(2)}',
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: Colors.black87,
+              color: isDark ? Colors.white : Colors.black87,
             ),
           ),
         ],

@@ -152,7 +152,7 @@ class _ProfessionalDataTableState<T> extends State<ProfessionalDataTable<T>> {
   Widget _buildSearchBar() {
     return Container(
       padding: const EdgeInsets.all(AppDimensions.paddingMedium),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
             color: AppColors.outline,
@@ -393,7 +393,7 @@ class _ProfessionalDataTableState<T> extends State<ProfessionalDataTable<T>> {
   Widget _buildPagination() {
     return Container(
       padding: const EdgeInsets.all(AppDimensions.paddingMedium),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         border: Border(
           top: BorderSide(
             color: AppColors.outline,

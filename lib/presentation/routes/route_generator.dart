@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../pages/pages.dart';
+import '../pages/profile/professional_settings_page.dart';
 import 'app_routes.dart';
 import 'route_animations.dart';
 
@@ -30,8 +31,7 @@ class RouteGenerator {
   static Route<dynamic> _getRouteForName(String routeName, Object? arguments) {
     switch (routeName) {
       // Authentication Routes
-      case AppRoutes.splash:
-      case '/':
+      case AppRoutes.splash: // This is '/' - splash route
         return RouteAnimations.slideRoute(
           const AuthWrapper(),
           settings: RouteSettings(name: routeName),
@@ -75,11 +75,7 @@ class RouteGenerator {
 
       case AppRoutes.settings:
         return RouteAnimations.slideRoute(
-          // TODO: Import actual SettingsPage from presentation/pages/profile/
-          // For now, using a placeholder - replace with: const SettingsPage()
-          const Scaffold(
-            body: Center(child: Text('Settings Page - Under Development')),
-          ),
+          const SettingsPage(),
           settings: RouteSettings(name: routeName),
         );
 

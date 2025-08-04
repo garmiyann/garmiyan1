@@ -9,12 +9,28 @@ class NotificationsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final currentUserId = FirebaseAuth.instance.currentUser?.uid;
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text('Notifications'),
-        backgroundColor: Colors.deepPurple,
+        title: Text(
+          'Notifications',
+          style: TextStyle(
+            color: Theme.of(context).appBarTheme.foregroundColor,
+          ),
+        ),
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        iconTheme: IconThemeData(
+          color: Theme.of(context).appBarTheme.foregroundColor,
+        ),
       ),
       body: currentUserId == null
-          ? const Center(child: Text('Not logged in'))
+          ? Center(
+              child: Text(
+                'Not logged in',
+                style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyLarge?.color,
+                ),
+              ),
+            )
           : StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
                   .collection('notifications')
@@ -26,7 +42,14 @@ class NotificationsScreen extends StatelessWidget {
                   return const Center(child: CircularProgressIndicator());
                 }
                 if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                  return const Center(child: Text('No notifications yet'));
+                  return Center(
+                    child: Text(
+                      'No notifications yet',
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyLarge?.color,
+                      ),
+                    ),
+                  );
                 }
                 final notifications = snapshot.data!.docs;
                 return ListView.builder(
@@ -35,14 +58,29 @@ class NotificationsScreen extends StatelessWidget {
                     final notif =
                         notifications[index].data() as Map<String, dynamic>;
                     return ListTile(
-                      leading: const Icon(Icons.person_add_rounded,
-                          color: Colors.deepPurple),
-                      title: Text(notif['message'] ?? 'Someone followed you'),
+                      leading: Icon(
+                        Icons.person_add_rounded,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      title: Text(
+                        notif['message'] ?? 'Someone followed you',
+                        style: TextStyle(
+                          color: Theme.of(context).textTheme.titleMedium?.color,
+                        ),
+                      ),
                       subtitle: notif['timestamp'] != null
-                          ? Text(DateTime.fromMillisecondsSinceEpoch(
-                                  notif['timestamp'])
-                              .toLocal()
-                              .toString())
+                          ? Text(
+                              DateTime.fromMillisecondsSinceEpoch(
+                                      notif['timestamp'])
+                                  .toLocal()
+                                  .toString(),
+                              style: TextStyle(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.color,
+                              ),
+                            )
                           : null,
                     );
                   },

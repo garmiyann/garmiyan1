@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../data/services/local_storage_service.dart';
 import 'base_controller.dart';
 
 /// Authentication Controller
@@ -115,6 +116,10 @@ class AuthController extends BaseController {
     await executeWithLoading(() async {
       // Clear stored token
       await _clearStoredToken();
+
+      // Clear stored credentials
+      final storageService = await LocalStorageService.getInstance();
+      await storageService.clearCredentials();
 
       // Clear user state
       _currentUser = null;

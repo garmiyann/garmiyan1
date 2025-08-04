@@ -27,18 +27,31 @@ class TelegramSettingsPage extends StatelessWidget {
   const TelegramSettingsPage({super.key});
 
   void _showLogoutDialog(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Log Out'),
-          content: const Text('Are you sure you want to log out?'),
+          backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+          title: Text(
+            'Log Out',
+            style: TextStyle(color: isDark ? Colors.white : Colors.black),
+          ),
+          content: Text(
+            'Are you sure you want to log out?',
+            style: TextStyle(color: isDark ? Colors.white : Colors.black),
+          ),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Cancel'),
+              child: Text(
+                'Cancel',
+                style: TextStyle(
+                  color: isDark ? Colors.grey[400] : Colors.grey[600],
+                ),
+              ),
             ),
             TextButton(
               onPressed: () {
@@ -177,20 +190,24 @@ class TelegramSettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ProfileData profileData = Provider.of<ProfileData>(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Theme.of(context).appBarTheme.foregroundColor,
+          ),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: const Text(
+        title: Text(
           'Settings and Privacy',
           style: TextStyle(
-            color: Colors.black,
+            color: Theme.of(context).appBarTheme.foregroundColor,
             fontWeight: FontWeight.w600,
             fontSize: 18,
           ),
@@ -232,12 +249,15 @@ class TelegramSettingsPage extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: isDark ? Colors.grey[800] : Colors.white,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.grey.shade300),
+              border: Border.all(
+                color: isDark ? Colors.grey[600]! : Colors.grey.shade300,
+              ),
               boxShadow: <BoxShadow>[
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: (isDark ? Colors.black : Colors.black)
+                      .withOpacity(isDark ? 0.3 : 0.05),
                   spreadRadius: 1,
                   blurRadius: 5,
                   offset: const Offset(0, 3),
@@ -266,23 +286,31 @@ class TelegramSettingsPage extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             profileData.name,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                              color: isDark ? Colors.white : Colors.black,
                             ),
                           ),
                           const SizedBox(height: 4),
                           Text(
                             profileData.username,
                             style: TextStyle(
-                                color: Colors.grey.shade700, fontSize: 10),
+                              color: isDark
+                                  ? Colors.grey[400]
+                                  : Colors.grey.shade700,
+                              fontSize: 10,
+                            ),
                           ),
                           const SizedBox(height: 2),
                           Text(
                             profileData.phoneNumber,
                             style: TextStyle(
-                                color: Colors.grey.shade700, fontSize: 10),
+                              color: isDark
+                                  ? Colors.grey[400]
+                                  : Colors.grey.shade700,
+                              fontSize: 10,
+                            ),
                           ),
                         ],
                       ),
@@ -301,11 +329,17 @@ class TelegramSettingsPage extends StatelessWidget {
                                 newProfileImageUrl:
                                     'https://www.gstatic.com/flutter-onestack-prototype/genui/example_1.jpg');
                           },
-                          icon: const Icon(Icons.camera_alt_outlined,
-                              color: Colors.blue),
-                          label: const Text("Change Photo",
-                              style:
-                                  TextStyle(color: Colors.blue, fontSize: 12)),
+                          icon: Icon(
+                            Icons.camera_alt_outlined,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          label: Text(
+                            "Change Photo",
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontSize: 12,
+                            ),
+                          ),
                         ),
                       ),
                       // Demo button to toggle premium status
@@ -381,27 +415,39 @@ class AccountItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return ListTile(
       leading: CircleAvatar(backgroundImage: NetworkImage(data.imageUrl)),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(data.title,
-              style: const TextStyle(color: Colors.black, fontSize: 12)),
+          Text(
+            data.title,
+            style: TextStyle(
+              color: isDark ? Colors.white : Colors.black,
+              fontSize: 12,
+            ),
+          ),
           if (data.description != null)
             Text(
               data.description!,
-              style: TextStyle(color: Colors.grey.shade600, fontSize: 10),
+              style: TextStyle(
+                color: isDark ? Colors.grey[400] : Colors.grey.shade600,
+                fontSize: 10,
+              ),
             ),
         ],
       ),
       trailing: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
         decoration: BoxDecoration(
-          color: Colors.blue,
+          color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(12),
         ),
-        child: Text(data.badge, style: const TextStyle(color: Colors.white)),
+        child: Text(
+          data.badge,
+          style: const TextStyle(color: Colors.white),
+        ),
       ),
       onTap: () {},
     );
@@ -416,6 +462,7 @@ class ProfileSubscriptionBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -430,7 +477,7 @@ class ProfileSubscriptionBox extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
         boxShadow: <BoxShadow>[
           BoxShadow(
-            color: Colors.black.withOpacity(0.3),
+            color: (isDark ? Colors.black : Colors.black).withOpacity(0.3),
             spreadRadius: 2,
             blurRadius: 15,
             offset: const Offset(0, 8),
@@ -551,6 +598,7 @@ class BuySubscriptionBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -565,7 +613,7 @@ class BuySubscriptionBox extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
         boxShadow: <BoxShadow>[
           BoxShadow(
-            color: Colors.black.withOpacity(0.3),
+            color: (isDark ? Colors.black : Colors.black).withOpacity(0.3),
             spreadRadius: 2,
             blurRadius: 15,
             offset: const Offset(0, 8),
@@ -717,15 +765,19 @@ class SettingsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isDark ? Colors.grey[800] : Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade300),
+        border: Border.all(
+          color: isDark ? Colors.grey[600]! : Colors.grey.shade300,
+        ),
         boxShadow: <BoxShadow>[
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: (isDark ? Colors.black : Colors.black)
+                .withOpacity(isDark ? 0.3 : 0.05),
             spreadRadius: 1,
             blurRadius: 5,
             offset: const Offset(0, 3),
@@ -737,18 +789,24 @@ class SettingsSection extends StatelessWidget {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(data.title.toUpperCase(),
-                style: TextStyle(
-                    color: Colors.grey.shade700,
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold)),
+            child: Text(
+              data.title.toUpperCase(),
+              style: TextStyle(
+                color: isDark ? Colors.grey[400] : Colors.grey.shade700,
+                fontSize: 10,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
           ...data.children
               .map<Widget>(
                   (SettingTileData tileData) => SettingTile(data: tileData))
               .expand<Widget>((Widget widget) => <Widget>[
                     widget,
-                    Divider(color: Colors.grey.shade200, height: 1)
+                    Divider(
+                      color: isDark ? Colors.grey[600] : Colors.grey.shade200,
+                      height: 1,
+                    )
                   ])
               .take(data.children.length * 2 - 1)
               .toList(),
@@ -765,12 +823,19 @@ class SettingTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final List<Widget> trailingWidgets = <Widget>[];
 
     // Add trailing text if present
     if (data.trailing != null) {
       trailingWidgets.add(
-          Text(data.trailing!, style: TextStyle(color: Colors.grey.shade600)));
+        Text(
+          data.trailing!,
+          style: TextStyle(
+            color: isDark ? Colors.grey[400] : Colors.grey.shade600,
+          ),
+        ),
+      );
     }
 
     // Add trailing icon if present
@@ -778,21 +843,37 @@ class SettingTile extends StatelessWidget {
       if (trailingWidgets.isNotEmpty) {
         trailingWidgets.add(const SizedBox(width: 4));
       }
-      trailingWidgets
-          .add(Icon(data.trailingIcon!, color: Colors.grey.shade600, size: 18));
+      trailingWidgets.add(
+        Icon(
+          data.trailingIcon!,
+          color: isDark ? Colors.grey[400] : Colors.grey.shade600,
+          size: 18,
+        ),
+      );
     }
 
     return ListTile(
-      leading: Icon(data.icon, color: Colors.grey.shade700),
+      leading: Icon(
+        data.icon,
+        color: isDark ? Colors.grey[400] : Colors.grey.shade700,
+      ),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(data.title,
-              style: const TextStyle(color: Colors.black, fontSize: 11)),
+          Text(
+            data.title,
+            style: TextStyle(
+              color: isDark ? Colors.white : Colors.black,
+              fontSize: 11,
+            ),
+          ),
           if (data.description != null)
             Text(
               data.description!,
-              style: TextStyle(color: Colors.grey.shade600, fontSize: 10),
+              style: TextStyle(
+                color: isDark ? Colors.grey[400] : Colors.grey.shade600,
+                fontSize: 10,
+              ),
             ),
         ],
       ),

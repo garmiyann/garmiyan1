@@ -7,6 +7,7 @@
 // This exports only the gateway AboutPage from presentation layer
 export 'about_page.dart';
 export 'settings_page.dart';
+export 'professional_settings_page.dart';
 
 // TODO: Migrate and add these pages from screens/menu/ to presentation layer:
 // export 'account_settings_page.dart';      // -> screens/menu/account_settings_screen.dart

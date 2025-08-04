@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../data/services/local_storage_service.dart';
 import 'forgot_password_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -14,6 +15,31 @@ class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   bool isLoading = false;
+  bool _rememberMe = false;
+
+  late LocalStorageService _storageService;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeStorageService();
+  }
+
+  Future<void> _initializeStorageService() async {
+    _storageService = await LocalStorageService.getInstance();
+    _loadSavedCredentials();
+  }
+
+  void _loadSavedCredentials() {
+    final credentials = _storageService.getCredentials();
+    setState(() {
+      _rememberMe = credentials['remember'] ?? false;
+      if (_rememberMe) {
+        emailController.text = credentials['email'] ?? '';
+        passwordController.text = credentials['password'] ?? '';
+      }
+    });
+  }
 
   Future<void> _signIn() async {
     final email = emailController.text.trim();
@@ -29,6 +55,13 @@ class _LoginPageState extends State<LoginPage> {
     setState(() => isLoading = true);
 
     try {
+      // Save credentials if remember me is checked
+      await _storageService.saveCredentials(
+        email: email,
+        password: password,
+        remember: _rememberMe,
+      );
+
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
@@ -121,6 +154,27 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 20),
+
+                // Remember Me Checkbox
+                Row(
+                  children: [
+                    Checkbox(
+                      value: _rememberMe,
+                      onChanged: (value) {
+                        setState(() {
+                          _rememberMe = value ?? false;
+                        });
+                      },
+                      checkColor: Colors.white,
+                      activeColor: const Color(0xFFB700FF),
+                    ),
+                    const Text(
+                      'Remember me',
+                      style: TextStyle(color: Colors.white70),
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 30),
 
                 // Login Button
@@ -173,6 +227,20 @@ class _LoginPageState extends State<LoginPage> {
                     style: TextStyle(color: Colors.white70),
                   ),
                 ),
+
+                const SizedBox(height: 40),
+
+                // Powered by CGC
+                const Text(
+                  'Powered by CGC',
+                  style: TextStyle(
+                    color: Colors.white38,
+                    fontSize: 12,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+
+                const SizedBox(height: 30),
               ],
             ),
           ),

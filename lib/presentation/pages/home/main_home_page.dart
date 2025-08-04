@@ -81,9 +81,11 @@ class _MainHomePageState extends State<MainHomePage> {
       isScrollControlled: true,
       builder: (BuildContext bc) {
         return Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
+          decoration: BoxDecoration(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.grey[850]
+                : Colors.white,
+            borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
             ),
@@ -97,7 +99,9 @@ class _MainHomePageState extends State<MainHomePage> {
                 height: 4,
                 width: 40,
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.grey[600]
+                      : Colors.grey.shade300,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -128,7 +132,7 @@ class _MainHomePageState extends State<MainHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
         child: _pages[_selectedIndex],
@@ -137,13 +141,22 @@ class _MainHomePageState extends State<MainHomePage> {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
         height: 75,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).brightness == Brightness.dark
+              ? Colors.grey[900]
+              : Colors.white,
           border: Border(
-            top: BorderSide(color: Colors.grey.shade300, width: 0.5),
+            top: BorderSide(
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.grey.shade700
+                  : Colors.grey.shade300,
+              width: 0.5,
+            ),
           ),
           boxShadow: <BoxShadow>[
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.black.withOpacity(0.3)
+                  : Colors.black.withOpacity(0.1),
               spreadRadius: 1,
               blurRadius: 8,
               offset: const Offset(0, -2),
@@ -227,6 +240,7 @@ class _TikTokNavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -238,7 +252,9 @@ class _TikTokNavItem extends StatelessWidget {
           children: <Widget>[
             Icon(
               icon,
-              color: selected ? Colors.deepPurple : Colors.grey.shade600,
+              color: selected
+                  ? Colors.deepPurple
+                  : (isDark ? Colors.grey.shade400 : Colors.grey.shade600),
               size: selected ? 24 : 22,
             ),
             const SizedBox(height: 2),
@@ -248,7 +264,9 @@ class _TikTokNavItem extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 9,
                   fontWeight: selected ? FontWeight.bold : FontWeight.w500,
-                  color: selected ? Colors.deepPurple : Colors.grey.shade600,
+                  color: selected
+                      ? Colors.deepPurple
+                      : (isDark ? Colors.grey.shade400 : Colors.grey.shade600),
                 ),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
@@ -274,6 +292,7 @@ class _AINavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -290,7 +309,9 @@ class _AINavItem extends StatelessWidget {
                 gradient: LinearGradient(
                   colors: selected
                       ? [Colors.deepPurple, Colors.purple]
-                      : [Colors.grey.shade600, Colors.grey.shade500],
+                      : (isDark
+                          ? [Colors.grey.shade600, Colors.grey.shade700]
+                          : [Colors.grey.shade600, Colors.grey.shade500]),
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -314,7 +335,9 @@ class _AINavItem extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 9,
                   fontWeight: selected ? FontWeight.bold : FontWeight.w500,
-                  color: selected ? Colors.deepPurple : Colors.grey.shade600,
+                  color: selected
+                      ? Colors.deepPurple
+                      : (isDark ? Colors.grey.shade400 : Colors.grey.shade600),
                 ),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
@@ -334,6 +357,7 @@ class _CenterAddButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -368,10 +392,14 @@ class _CenterAddButton extends StatelessWidget {
               width: 34,
               height: 28,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: isDark ? Colors.grey[800] : Colors.white,
                 borderRadius: BorderRadius.circular(6),
               ),
-              child: const Icon(Icons.add, color: Colors.black, size: 18),
+              child: Icon(
+                Icons.add,
+                color: isDark ? Colors.white : Colors.black,
+                size: 18,
+              ),
             ),
           ],
         ),
@@ -392,18 +420,24 @@ class _AddOptionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         margin: const EdgeInsets.symmetric(vertical: 4),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: isDark ? Colors.grey[800] : Colors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.grey.shade200, width: 0.8),
+          border: Border.all(
+            color: isDark ? Colors.grey.shade600 : Colors.grey.shade200,
+            width: 0.8,
+          ),
           boxShadow: <BoxShadow>[
             BoxShadow(
-              color: Colors.grey.withOpacity(0.05),
+              color: isDark
+                  ? Colors.black.withOpacity(0.3)
+                  : Colors.grey.withOpacity(0.05),
               blurRadius: 4,
               offset: const Offset(0, 2),
             ),
@@ -411,7 +445,11 @@ class _AddOptionTile extends StatelessWidget {
         ),
         child: Row(
           children: <Widget>[
-            Icon(option.icon, size: 24, color: Colors.black87),
+            Icon(
+              option.icon,
+              size: 24,
+              color: isDark ? Colors.white : Colors.black87,
+            ),
             const SizedBox(width: 16),
             Expanded(
               child: Column(
@@ -419,10 +457,10 @@ class _AddOptionTile extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     option.title,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black87,
+                      color: isDark ? Colors.white : Colors.black87,
                     ),
                   ),
                   const SizedBox(height: 2),
@@ -430,13 +468,18 @@ class _AddOptionTile extends StatelessWidget {
                     option.description,
                     style: TextStyle(
                       fontSize: 11,
-                      color: Colors.grey.shade600,
+                      color:
+                          isDark ? Colors.grey.shade400 : Colors.grey.shade600,
                     ),
                   ),
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right, color: Colors.grey, size: 20),
+            Icon(
+              Icons.chevron_right,
+              color: isDark ? Colors.grey.shade400 : Colors.grey,
+              size: 20,
+            ),
           ],
         ),
       ),
@@ -538,6 +581,7 @@ class _HomeContentWithSearchState extends State<_HomeContentWithSearch> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -546,11 +590,20 @@ class _HomeContentWithSearchState extends State<_HomeContentWithSearch> {
           // Search Bar
           TextField(
             controller: _searchController,
+            style: TextStyle(
+              color: isDark ? Colors.white : Colors.black,
+            ),
             decoration: InputDecoration(
               hintText: 'Search users by name or username...',
-              prefixIcon: const Icon(Icons.search_rounded),
+              hintStyle: TextStyle(
+                color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
+              ),
+              prefixIcon: Icon(
+                Icons.search_rounded,
+                color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
+              ),
               filled: true,
-              fillColor: Colors.grey[100],
+              fillColor: isDark ? Colors.grey[800] : Colors.grey[100],
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
                 borderSide: BorderSide.none,
@@ -571,11 +624,13 @@ class _HomeContentWithSearchState extends State<_HomeContentWithSearch> {
             Container(
               margin: const EdgeInsets.only(top: 8, bottom: 16),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: isDark ? Colors.grey[850] : Colors.white,
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: isDark
+                        ? Colors.black.withOpacity(0.3)
+                        : Colors.black.withOpacity(0.05),
                     blurRadius: 8,
                     spreadRadius: 2,
                   ),
@@ -615,11 +670,24 @@ class _HomeContentWithSearchState extends State<_HomeContentWithSearch> {
                                       : ''))
                               .trim()
                           : 'No Name',
-                      style: const TextStyle(fontWeight: FontWeight.w500),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: isDark ? Colors.white : Colors.black,
+                      ),
                     ),
-                    subtitle: Text('@${user['username'] ?? 'user'}'),
-                    trailing: Icon(Icons.chevron_right_rounded,
-                        color: Colors.grey.shade400),
+                    subtitle: Text(
+                      '@${user['username'] ?? 'user'}',
+                      style: TextStyle(
+                        color: isDark
+                            ? Colors.grey.shade400
+                            : Colors.grey.shade600,
+                      ),
+                    ),
+                    trailing: Icon(
+                      Icons.chevron_right_rounded,
+                      color:
+                          isDark ? Colors.grey.shade500 : Colors.grey.shade400,
+                    ),
                     onTap: () {
                       Navigator.push(
                         context,

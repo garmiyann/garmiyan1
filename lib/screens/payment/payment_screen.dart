@@ -17,23 +17,29 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         elevation: 0,
-        title: const Text(
+        title: Text(
           'Payment',
           style: TextStyle(
-            color: Colors.black,
+            color: Theme.of(context).appBarTheme.foregroundColor,
             fontSize: 18,
             fontWeight: FontWeight.w600,
           ),
         ),
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(
+          color: Theme.of(context).appBarTheme.foregroundColor,
+        ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.history),
+            icon: Icon(
+              Icons.history,
+              color: Theme.of(context).appBarTheme.foregroundColor,
+            ),
             onPressed: () {
               _showPaymentHistory(context);
             },
@@ -129,11 +135,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
             const SizedBox(height: 24),
 
             // Quick Actions
-            const Text(
+            Text(
               'Quick Actions',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
+                color: isDark ? Colors.white : Colors.black,
               ),
             ),
             const SizedBox(height: 12),
@@ -218,16 +225,18 @@ class _PaymentScreenState extends State<PaymentScreen> {
     required String subtitle,
     required VoidCallback onTap,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: isDark ? Colors.grey[800] : Colors.white,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: (isDark ? Colors.black : Colors.black)
+                  .withOpacity(isDark ? 0.3 : 0.05),
               blurRadius: 4,
               offset: const Offset(0, 2),
             ),
@@ -239,17 +248,19 @@ class _PaymentScreenState extends State<PaymentScreen> {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.blue.withOpacity(0.1),
+                color: Theme.of(context).primaryColor.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(icon, color: Colors.blue, size: 24),
+              child:
+                  Icon(icon, color: Theme.of(context).primaryColor, size: 24),
             ),
             const SizedBox(height: 12),
             Text(
               title,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
+                color: isDark ? Colors.white : Colors.black,
               ),
             ),
             const SizedBox(height: 4),
@@ -257,7 +268,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               subtitle,
               style: TextStyle(
                 fontSize: 12,
-                color: Colors.grey[600],
+                color: isDark ? Colors.grey[400] : Colors.grey[600],
               ),
             ),
           ],
@@ -427,20 +438,37 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   void _showTopUpDialog(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Add Money'),
+        backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+        title: Text(
+          'Add Money',
+          style: TextStyle(color: isDark ? Colors.white : Colors.black),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: _amountController,
               keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
+              style: TextStyle(color: isDark ? Colors.white : Colors.black),
+              decoration: InputDecoration(
                 labelText: 'Amount',
+                labelStyle: TextStyle(
+                    color: isDark ? Colors.grey[400] : Colors.grey[600]),
                 prefixText: '\$ ',
-                border: OutlineInputBorder(),
+                prefixStyle:
+                    TextStyle(color: isDark ? Colors.white : Colors.black),
+                border: const OutlineInputBorder(),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: isDark ? Colors.grey[600]! : Colors.grey[400]!),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
+                ),
               ),
             ),
           ],
@@ -448,7 +476,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(
+              'Cancel',
+              style: TextStyle(
+                  color: isDark ? Colors.grey[400] : Colors.grey[600]),
+            ),
           ),
           ElevatedButton(
             onPressed: () {
@@ -457,6 +489,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 const SnackBar(content: Text('Money added successfully!')),
               );
             },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(context).primaryColor,
+              foregroundColor: Colors.white,
+            ),
             child: const Text('Add Money'),
           ),
         ],
@@ -465,20 +501,37 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   void _showWithdrawDialog(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Withdraw Money'),
+        backgroundColor: isDark ? Colors.grey[900] : Colors.white,
+        title: Text(
+          'Withdraw Money',
+          style: TextStyle(color: isDark ? Colors.white : Colors.black),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: _amountController,
               keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
+              style: TextStyle(color: isDark ? Colors.white : Colors.black),
+              decoration: InputDecoration(
                 labelText: 'Amount',
+                labelStyle: TextStyle(
+                    color: isDark ? Colors.grey[400] : Colors.grey[600]),
                 prefixText: '\$ ',
-                border: OutlineInputBorder(),
+                prefixStyle:
+                    TextStyle(color: isDark ? Colors.white : Colors.black),
+                border: const OutlineInputBorder(),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: isDark ? Colors.grey[600]! : Colors.grey[400]!),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
+                ),
               ),
             ),
           ],
@@ -486,7 +539,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(
+              'Cancel',
+              style: TextStyle(
+                  color: isDark ? Colors.grey[400] : Colors.grey[600]),
+            ),
           ),
           ElevatedButton(
             onPressed: () {
@@ -495,6 +552,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 const SnackBar(content: Text('Withdrawal initiated!')),
               );
             },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(context).primaryColor,
+              foregroundColor: Colors.white,
+            ),
             child: const Text('Withdraw'),
           ),
         ],

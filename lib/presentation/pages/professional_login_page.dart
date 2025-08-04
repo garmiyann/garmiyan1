@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../core/core.dart';
 import '../../data/repositories/user_repository_impl.dart';
+import '../../data/services/local_storage_service.dart';
 import '../../domain/usecases/sign_in_usecase.dart';
+import '../widgets/theme_mode_selector.dart';
 
 /// Professional login page using the new architecture
 class ProfessionalLoginPage extends StatefulWidget {
@@ -18,9 +20,11 @@ class _ProfessionalLoginPageState extends State<ProfessionalLoginPage> {
 
   bool _isLoading = false;
   bool _showPassword = false;
+  bool _rememberMe = false;
 
   // Dependency injection - in a real app, use a service locator
   late final SignInUseCase _signInUseCase;
+  late final LocalStorageService _storageService;
 
   @override
   void initState() {
@@ -28,6 +32,25 @@ class _ProfessionalLoginPageState extends State<ProfessionalLoginPage> {
     // Initialize use case with repository
     final userRepository = UserRepositoryImpl();
     _signInUseCase = SignInUseCase(userRepository);
+
+    // Initialize storage service and load saved credentials
+    _initializeStorageService();
+  }
+
+  Future<void> _initializeStorageService() async {
+    _storageService = await LocalStorageService.getInstance();
+    _loadSavedCredentials();
+  }
+
+  void _loadSavedCredentials() {
+    final credentials = _storageService.getCredentials();
+    setState(() {
+      _rememberMe = credentials['remember'] ?? false;
+      if (_rememberMe) {
+        _emailController.text = credentials['email'] ?? '';
+        _passwordController.text = credentials['password'] ?? '';
+      }
+    });
   }
 
   @override
@@ -45,10 +68,20 @@ class _ProfessionalLoginPageState extends State<ProfessionalLoginPage> {
     });
 
     try {
+      final email = _emailController.text.trim();
+      final password = _passwordController.text.trim();
+
+      // Save credentials if remember me is checked
+      await _storageService.saveCredentials(
+        email: email,
+        password: password,
+        remember: _rememberMe,
+      );
+
       // Use the professional architecture
       final result = await _signInUseCase.call(SignInParams(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
+        email: email,
+        password: password,
       ));
 
       if (mounted) {
@@ -94,6 +127,9 @@ class _ProfessionalLoginPageState extends State<ProfessionalLoginPage> {
         title: Text(AppStrings.signIn),
         backgroundColor: Colors.transparent,
         elevation: 0,
+        actions: [
+          const ThemeToggleButton(),
+        ],
       ),
       body: SafeArea(
         child: Padding(
@@ -149,6 +185,29 @@ class _ProfessionalLoginPageState extends State<ProfessionalLoginPage> {
                   ),
                 ),
 
+                const SizedBox(height: AppDimensions.spacingMedium),
+
+                // Remember Me Checkbox
+                Row(
+                  children: [
+                    Checkbox(
+                      value: _rememberMe,
+                      onChanged: (value) {
+                        setState(() {
+                          _rememberMe = value ?? false;
+                        });
+                      },
+                      activeColor: AppColors.primary,
+                    ),
+                    Text(
+                      AppStrings.rememberMe,
+                      style: AppTextStyles.bodyMedium.copyWith(
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+
                 const SizedBox(height: AppDimensions.spacingXLarge),
 
                 // Sign In Button
@@ -161,7 +220,7 @@ class _ProfessionalLoginPageState extends State<ProfessionalLoginPage> {
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
                             valueColor: AlwaysStoppedAnimation<Color>(
-                              AppColors.textPrimary,
+                              Colors.white,
                             ),
                           ),
                         )
@@ -198,6 +257,19 @@ class _ProfessionalLoginPageState extends State<ProfessionalLoginPage> {
                     ),
                   ],
                 ),
+
+                const SizedBox(height: AppDimensions.spacingXLarge),
+
+                // Powered by CGC
+                Text(
+                  'Powered by CGC',
+                  style: AppTextStyles.bodySmall.copyWith(
+                    color: AppColors.textSecondary.withValues(alpha: 0.6),
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+
+                const SizedBox(height: AppDimensions.spacingLarge),
               ],
             ),
           ),

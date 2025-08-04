@@ -87,11 +87,6 @@ class _ProfessionalButtonState extends State<ProfessionalButton>
     _animationController.repeat(reverse: true);
   }
 
-  void _stopPulseAnimation() {
-    _animationController.stop();
-    _animationController.reset();
-  }
-
   @override
   Widget build(BuildContext context) {
     final isEnabled = widget.onPressed != null && !widget.isLoading;
