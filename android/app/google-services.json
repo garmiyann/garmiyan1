@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "814873659197",
+    "project_id": "cgcc-5f90c",
+    "storage_bucket": "cgcc-5f90c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:814873659197:android:82c2b52622f96a62eaa754",
+        "android_client_info": {
+          "package_name": "com.garmyan.golden_prizma"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7BAmBYb0mynrB0NaxIPGKRSJIjRLX8Lc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
