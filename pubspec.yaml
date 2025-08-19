@@ -1,5 +1,6 @@
 name: golden_prizma
 description: A shopping app like GoldenPrizma
+version: 1.0.0+1  # Format: versionName+versionCode
 publish_to: 'none'
 
 environment:
@@ -14,15 +15,13 @@ dependencies:
   url_launcher: ^6.2.6
   animated_text_kit: ^4.2.2
   shared_preferences: ^2.2.2
-  firebase_core: ^2.31.0
-  firebase_auth: ^4.17.8
-  cloud_firestore: ^4.17.5
+  firebase_core: ^2.32.0
+  firebase_auth: ^4.18.0
+  cloud_firestore: ^4.18.0
   provider: ^6.1.2
   flutter_svg: ^2.0.7
   intl: ^0.19.0
-  mapbox_maps_flutter: ^2.0.0
-  geolocator: ^12.0.0
-  permission_handler: ^11.3.1
+  permission_handler: ^11.0.0
   video_player: ^2.10.0
   visibility_detector: ^0.4.0+2
 
