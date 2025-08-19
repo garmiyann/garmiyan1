@@ -18,5 +18,4 @@ workflows:
       email:
         recipients:
           - garmyan213@gmail.com
-        on_success: true
-        on_failure: true
+ 
